@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>✦</title>
+<meta property="og:title" content="✦"/>
+<meta property="og:description" content=""/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+:root{
+  --cream:#fdf5e8;
+  --rose:#e8c4b8;
+  --gold:#c8943a;
+  --ink:#2a1808;
+  --bg:#0e0806;
+}
+
+html,body{
+  width:100%;height:100%;
+  overflow:hidden;
+  background:var(--bg);
+  font-family:'Cormorant Garamond',serif;
+}
+
+/* ── MAIN CONTAINER ── */
+.main{
+  width:100%;height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 30%, #2a1808 0%, #0e0806 70%);
+  padding:40px 24px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* subtle warm texture */
+.main::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(200,148,58,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(200,148,58,0.04) 0%, transparent 50%);
+}
+
+/* floating stars */
+.star{
+  position:absolute;border-radius:50%;
+  background:white;pointer-events:none;
+  animation:twinkle var(--d) ease-in-out infinite var(--delay);
+}
+@keyframes twinkle{
+  0%,100%{opacity:0.15;transform:scale(0.8);}
+  50%{opacity:0.7;transform:scale(1);}
+}
+
+/* ── TOP HEADER ── */
+.header{
+  text-align:center;
+  margin-bottom:56px;
+  animation:fadeUp 1.4s ease forwards;
+  z-index:2;
+}
+.header-ornament{
+  font-family:'Caveat',cursive;
+  font-size:11px;letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--gold);opacity:0.5;
+  margin-bottom:20px;
+}
+.header-title{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(13px,3.5vw,16px);
+  color:var(--rose);
+  opacity:0.6;
+  letter-spacing:1px;
+  line-height:1.6;
+}
+
+/* ── CHAPTERS LIST ── */
+.chapters{
+  width:min(92vw,380px);
+  display:flex;flex-direction:column;
+  gap:0;z-index:2;
+  animation:fadeUp 1.6s ease forwards;
+}
+
+.chapter-item{
+  display:flex;align-items:center;
+  padding:22px 0;
+  border-bottom:1px solid rgba(200,148,58,0.1);
+  cursor:pointer;
+  text-decoration:none;
+  gap:20px;
+  transition:all 0.3s;
+  position:relative;
+}
+.chapter-item:first-child{
+  border-top:1px solid rgba(200,148,58,0.1);
+}
+.chapter-item:hover .chapter-num,
+.chapter-item:active .chapter-num{
+  color:var(--gold);
+}
+.chapter-item:hover .chapter-title,
+.chapter-item:active .chapter-title{
+  color:var(--cream);
+}
+.chapter-item:hover .chapter-arrow,
+.chapter-item:active .chapter-arrow{
+  opacity:1;transform:translateX(4px);
+}
+
+.chapter-num{
+  font-family:'Caveat',cursive;
+  font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;
+  color:rgba(200,148,58,0.4);
+  min-width:70px;
+  transition:color 0.3s;
+}
+.chapter-info{
+  flex:1;
+}
+.chapter-title{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(18px,5vw,22px);
+  color:rgba(253,245,232,0.75);
+  line-height:1.2;
+  margin-bottom:4px;
+  transition:color 0.3s;
+}
+.chapter-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(11px,3vw,13px);
+  color:rgba(200,148,58,0.45);
+  letter-spacing:1px;
+  font-style:italic;
+}
+.chapter-arrow{
+  font-size:16px;
+  color:var(--gold);
+  opacity:0.3;
+  transition:all 0.3s;
+}
+
+/* ── BOTTOM ── */
+.footer{
+  position:absolute;
+  bottom:28px;left:0;right:0;
+  text-align:center;
+  font-family:'Caveat',cursive;
+  font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;
+  color:rgba(200,148,58,0.25);
+  z-index:2;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<div class="main">
+
+  <!-- stars -->
+  <span class="star" style="width:1.5px;height:1.5px;left:8%;top:12%;--d:3.2s;--delay:-1s;"></span>
+  <span class="star" style="width:1px;height:1px;left:22%;top:8%;--d:4.1s;--delay:-2.3s;"></span>
+  <span class="star" style="width:2px;height:2px;left:78%;top:15%;--d:2.8s;--delay:-0.5s;"></span>
+  <span class="star" style="width:1px;height:1px;left:88%;top:9%;--d:3.8s;--delay:-1.8s;"></span>
+  <span class="star" style="width:1.5px;height:1.5px;left:45%;top:6%;--d:4.5s;--delay:-3s;"></span>
+  <span class="star" style="width:1px;height:1px;left:65%;top:20%;--d:3s;--delay:-0.8s;"></span>
+  <span class="star" style="width:2px;height:2px;left:14%;top:85%;--d:3.5s;--delay:-2s;"></span>
+  <span class="star" style="width:1px;height:1px;left:90%;top:82%;--d:4.2s;--delay:-1.2s;"></span>
+  <span class="star" style="width:1.5px;height:1.5px;left:55%;top:88%;--d:2.6s;--delay:-0.3s;"></span>
+  <span class="star" style="width:1px;height:1px;left:32%;top:92%;--d:3.9s;--delay:-2.7s;"></span>
+
+  <!-- header -->
+  <div class="header">
+    <div class="header-ornament">✦ &nbsp; for you &nbsp; ✦</div>
+    <div class="header-title">some things I've been<br>meaning to say</div>
+  </div>
+
+  <!-- chapters -->
+  <div class="chapters">
+
+    <!-- CHAPTER 1 — always visible -->
+    <a class="chapter-item" href="chapter1.html">
+      <div class="chapter-num">ch. 01</div>
+      <div class="chapter-info">
+        <div class="chapter-title">that night</div>
+        <div class="chapter-sub">the restaurant, the road, the stars</div>
+      </div>
+      <div class="chapter-arrow">→</div>
+    </a>
+
+    <!-- CHAPTER 2 -->
+    <a class="chapter-item" href="chapter2.html">
+      <div class="chapter-num">ch. 02</div>
+      <div class="chapter-info">
+        <div class="chapter-title">the other side</div>
+        <div class="chapter-sub">a poem</div>
+      </div>
+      <div class="chapter-arrow">→</div>
+    </a>
+
+    <!--
+      TO ADD CHAPTER 3: uncomment below and create chapter3.html
+
+    <a class="chapter-item" href="chapter3.html">
+      <div class="chapter-num">ch. 03</div>
+      <div class="chapter-info">
+        <div class="chapter-title">chapter title here</div>
+        <div class="chapter-sub">subtitle here</div>
+      </div>
+      <div class="chapter-arrow">→</div>
+    </a>
+
+    -->
+
+  </div>
+
+  <div class="footer">tap a chapter to open</div>
+
+</div>
+
+</body>
+</html>

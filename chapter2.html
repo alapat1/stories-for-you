@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>✦</title>
+<meta property="og:title" content="✦"/>
+<meta property="og:description" content=""/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+:root{
+  --dawn1:#fdf0e8;   /* warm ivory */
+  --dawn2:#f5d8c8;   /* blush */
+  --dawn3:#e8b89a;   /* dusty rose */
+  --dawn4:#c8783a;   /* amber */
+  --dawn5:#2a1808;   /* deep ink */
+  --dawn6:#f8e8d8;   /* pale petal */
+}
+
+html,body{
+  width:100%;height:100%;
+  overflow:hidden;
+  background:var(--dawn1);
+  font-family:'Cormorant Garamond',serif;
+}
+
+/* ── MAIN WRAPPER ── */
+.world{
+  width:100%;height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(160deg, #fdf8f0 0%, #f5e4d0 40%, #eedac8 70%, #e8cdb8 100%);
+}
+
+/* dawn light rays */
+.rays{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(255,200,120,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 50%, rgba(255,180,140,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 60%, rgba(255,160,120,0.08) 0%, transparent 50%);
+  pointer-events:none;
+}
+
+/* ── SKETCH CANVAS — background illustrations ── */
+.sketch-layer{
+  position:absolute;inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* ── POEM CONTAINER ── */
+.poem-wrap{
+  position:relative;z-index:10;
+  width:min(88vw,360px);
+  text-align:center;
+  padding:20px;
+}
+
+.poem-line{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(17px,4.8vw,22px);
+  color:var(--dawn5);
+  line-height:1.8;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity 0.9s ease, transform 0.9s ease;
+  margin-bottom:6px;
+}
+.poem-line.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.poem-line.dimmed{
+  opacity:0.3;
+  transform:translateY(0);
+}
+
+/* ── TAP HINT ── */
+.tap-hint{
+  position:absolute;
+  bottom:52px;left:50%;
+  transform:translateX(-50%);
+  z-index:20;
+  display:flex;flex-direction:column;
+  align-items:center;gap:8px;
+  opacity:0;
+  transition:opacity 0.6s ease;
+}
+.tap-hint.show{ opacity:1; }
+.tap-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:var(--dawn4);
+  animation:tapPulse 1.8s ease-in-out infinite;
+}
+.tap-dot:nth-child(2){ animation-delay:0.3s; }
+.tap-dot:nth-child(3){ animation-delay:0.6s; }
+@keyframes tapPulse{
+  0%,100%{opacity:0.2;transform:scaleY(1);}
+  50%{opacity:0.8;transform:scaleY(1.4);}
+}
+
+/* ── PROGRESS LINE ── */
+.progress-line{
+  position:absolute;
+  bottom:0;left:0;
+  height:2px;
+  background:linear-gradient(to right, var(--dawn3), var(--dawn4));
+  width:0%;
+  transition:width 0.8s ease;
+  z-index:20;
+  border-radius:0 2px 2px 0;
+}
+
+/* ── CHAPTER LABEL ── */
+.ch-label{
+  position:absolute;
+  top:24px;left:50%;transform:translateX(-50%);
+  font-family:'Caveat',cursive;
+  font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--dawn4);opacity:0.5;
+  z-index:20;
+}
+
+/* ── BACK BUTTON ── */
+.back-btn{
+  position:absolute;
+  top:20px;left:20px;
+  font-family:'Caveat',cursive;
+  font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--dawn4);opacity:0.45;
+  background:none;border:none;cursor:pointer;
+  z-index:20;
+  transition:opacity 0.2s;
+  text-decoration:none;
+}
+.back-btn:hover{ opacity:0.8; }
+
+/* ── END SCREEN ── */
+.end-screen{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:linear-gradient(160deg, #fdf8f0 0%, #f5e4d0 40%, #e8cdb8 100%);
+  z-index:50;
+  opacity:0;pointer-events:none;
+  transition:opacity 1s ease;
+  text-align:center;
+  padding:40px;
+}
+.end-screen.show{
+  opacity:1;pointer-events:all;
+}
+.end-title{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(28px,8vw,38px);
+  color:var(--dawn5);
+  line-height:1.3;
+  margin-bottom:20px;
+  animation:fadeUp 1s ease forwards;
+}
+.end-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:clamp(13px,3.5vw,16px);
+  color:var(--dawn4);
+  letter-spacing:1px;
+  margin-bottom:40px;
+  animation:fadeUp 1.3s ease forwards;
+}
+.end-back{
+  font-family:'Caveat',cursive;
+  font-size:14px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--dawn5);
+  background:none;
+  border:1px solid rgba(200,120,58,0.3);
+  border-radius:40px;
+  padding:12px 32px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:all 0.3s;
+  animation:fadeUp 1.6s ease forwards;
+  opacity:0;
+}
+.end-back.rdy{ opacity:1; }
+.end-back:hover{ background:rgba(200,120,58,0.1); border-color:var(--dawn4); }
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ── MUSIC PLAYER (hidden) ── */
+#yt-player{ position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; top:-9999px; }
+</style>
+</head>
+<body>
+
+<div class="world" id="world" onclick="nextLine()">
+
+  <div class="rays"></div>
+
+  <!-- background sketch illustrations -->
+  <div class="sketch-layer">
+    <svg width="100%" height="100%" viewBox="0 0 420 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="skFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5e0c8" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#f5e0c8" stop-opacity="0.2"/>
+        </linearGradient>
+      </defs>
+
+      <!-- BRIDGE — left side, faint -->
+      <g opacity="0.12" stroke="#8a5030" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- bridge arc -->
+        <path d="M20 520 Q120 380 220 420 Q320 460 400 350" stroke-width="2"/>
+        <!-- bridge cables/rails -->
+        <path d="M20 520 Q120 400 220 440" stroke-width="1" opacity="0.6"/>
+        <path d="M80 500 L100 430" stroke-width="0.8" opacity="0.5"/>
+        <path d="M130 490 L148 424" stroke-width="0.8" opacity="0.5"/>
+        <path d="M180 478 L196 420" stroke-width="0.8" opacity="0.5"/>
+        <!-- bridge path -->
+        <line x1="0" y1="528" x2="420" y2="400" stroke-width="1.5" opacity="0.7"/>
+        <line x1="0" y1="534" x2="420" y2="408" stroke-width="1" opacity="0.5"/>
+      </g>
+
+      <!-- FIGURE HER — left side of bridge, small, walking toward center -->
+      <g opacity="0.18" stroke="#8a5030" fill="none" transform="translate(60, 490)" stroke-linecap="round">
+        <!-- body -->
+        <line x1="0" y1="0" x2="0" y2="28" stroke-width="1.8"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="8" stroke-width="1.5"/>
+        <!-- hair -->
+        <path d="M-8 -4 C-14 2 -14 12 -12 20" stroke-width="3" opacity="0.7"/>
+        <!-- dress -->
+        <path d="M-6 10 L-10 30 M6 10 L10 30" stroke-width="1.5"/>
+        <path d="M-10 30 Q0 34 10 30" stroke-width="1.2"/>
+        <!-- arm reaching right -->
+        <path d="M4 8 C10 4 18 2 24 4" stroke-width="1.5"/>
+        <!-- walking legs -->
+        <line x1="-4" y1="28" x2="-8" y2="44" stroke-width="1.5"/>
+        <line x1="4" y1="28" x2="2" y2="44" stroke-width="1.5"/>
+      </g>
+
+      <!-- FIGURE HIM — right side of bridge, walking toward center -->
+      <g opacity="0.18" stroke="#8a5030" fill="none" transform="translate(300, 440)" stroke-linecap="round">
+        <!-- body -->
+        <line x1="0" y1="0" x2="0" y2="30" stroke-width="2"/>
+        <!-- head -->
+        <circle cx="0" cy="-10" r="9" stroke-width="1.5"/>
+        <!-- hair -->
+        <path d="M-9 -14 C-9 -22 9 -22 9 -14" stroke-width="2.5" opacity="0.7"/>
+        <!-- shoulders / torso -->
+        <path d="M-8 0 L-10 32 M8 0 L10 32" stroke-width="1.8"/>
+        <!-- arm reaching left -->
+        <path d="M-6 8 C-14 4 -22 2 -28 4" stroke-width="1.5"/>
+        <!-- walking legs -->
+        <line x1="-4" y1="30" x2="-2" y2="46" stroke-width="1.8"/>
+        <line x1="4" y1="30" x2="8" y2="46" stroke-width="1.8"/>
+      </g>
+
+      <!-- HANDS ALMOST MEETING — center -->
+      <g opacity="0.14" stroke="#8a5030" fill="none" transform="translate(178, 456)" stroke-linecap="round">
+        <!-- her hand -->
+        <path d="M0 0 C4 -2 8 -2 10 0 C12 2 12 6 10 8 C8 10 4 10 2 8 C0 6 0 2 0 0Z" stroke-width="1.2"/>
+        <line x1="2" y1="0" x2="0" y2="-8" stroke-width="1"/>
+        <line x1="5" y1="-1" x2="4" y2="-9" stroke-width="1"/>
+        <line x1="8" y1="0" x2="8" y2="-8" stroke-width="1"/>
+        <!-- gap — space between -->
+        <!-- his hand -->
+        <path d="M26 0 C22 -2 18 -2 16 0 C14 2 14 6 16 8 C18 10 22 10 24 8 C26 6 26 2 26 0Z" stroke-width="1.2"/>
+        <line x1="24" y1="0" x2="26" y2="-8" stroke-width="1"/>
+        <line x1="21" y1="-1" x2="22" y2="-9" stroke-width="1"/>
+        <line x1="18" y1="0" x2="18" y2="-8" stroke-width="1"/>
+      </g>
+
+      <!-- STARS / dawn dots top -->
+      <g fill="#c8783a" opacity="0.18">
+        <circle cx="40"  cy="60"  r="1.5"/>
+        <circle cx="100" cy="40"  r="1"/>
+        <circle cx="200" cy="30"  r="1.5"/>
+        <circle cx="300" cy="50"  r="1"/>
+        <circle cx="370" cy="35"  r="1.5"/>
+        <circle cx="150" cy="80"  r="0.8"/>
+        <circle cx="260" cy="70"  r="1"/>
+        <circle cx="330" cy="90"  r="0.8"/>
+      </g>
+
+      <!-- DAWN HORIZON LINE -->
+      <path d="M0 680 Q210 660 420 680" stroke="#c8783a" stroke-width="0.8" fill="none" opacity="0.15"/>
+      <path d="M0 690 Q210 670 420 690" stroke="#c8783a" stroke-width="0.5" fill="none" opacity="0.1"/>
+    </svg>
+  </div>
+
+  <!-- chapter label -->
+  <div class="ch-label">chapter two</div>
+
+  <!-- back button -->
+  <a class="back-btn" href="index.html">← back</a>
+
+  <!-- poem lines -->
+  <div class="poem-wrap" id="poemWrap">
+    <div class="poem-line" id="l0">I know you've crossed bridges,</div>
+    <div class="poem-line" id="l1">finding your way to me,</div>
+    <div class="poem-line" id="l2">To bring your light</div>
+    <div class="poem-line" id="l3">and show me the world.</div>
+    <div class="poem-line" id="l4">I know I want to see you</div>
+    <div class="poem-line" id="l5">on the other side,</div>
+    <div class="poem-line" id="l6">having found the way to you,</div>
+    <div class="poem-line" id="l7">To bring you the warmth I've yearned.</div>
+    <div class="poem-line" id="l8">To brighten your day,</div>
+    <div class="poem-line" id="l9">or lighten your night,</div>
+    <div class="poem-line" id="l10">I know you're not always around,</div>
+    <div class="poem-line" id="l11">day and night, each.</div>
+    <div class="poem-line" id="l12">But always know that,</div>
+    <div class="poem-line" id="l13">wherever you are,</div>
+    <div class="poem-line" id="l14">My arms will always be in reach.</div>
+  </div>
+
+  <!-- tap hint dots -->
+  <div class="tap-hint" id="tapHint">
+    <div class="tap-dot"></div>
+    <div class="tap-dot"></div>
+    <div class="tap-dot"></div>
+  </div>
+
+  <!-- progress line at bottom -->
+  <div class="progress-line" id="progressLine"></div>
+
+  <!-- end screen -->
+  <div class="end-screen" id="endScreen">
+    <div class="end-title">My arms will always<br>be in reach.</div>
+    <div class="end-sub">— ch. 02</div>
+    <a class="end-back rdy" href="index.html">← back to chapters</a>
+  </div>
+
+</div>
+
+<!-- hidden YouTube player -->
+<div id="yt-player"></div>
+
+<script>
+const TOTAL = 15;
+let current = -1;
+let started = false;
+
+const lines = Array.from({length:TOTAL}, (_,i) => document.getElementById('l'+i));
+const hint = document.getElementById('tapHint');
+const progress = document.getElementById('progressLine');
+const endScreen = document.getElementById('endScreen');
+
+// Show first line after a beat
+setTimeout(() => {
+  nextLine();
+  hint.classList.add('show');
+}, 800);
+
+function nextLine() {
+  if(current >= TOTAL - 1) {
+    // Show end screen
+    endScreen.classList.add('show');
+    hint.classList.remove('show');
+    return;
+  }
+
+  // Start music on first tap
+  if(!started) {
+    started = true;
+    startMusic();
+  }
+
+  current++;
+
+  // Dim previous lines slightly
+  lines.forEach((l, i) => {
+    if(i < current) {
+      l.classList.remove('visible');
+      l.classList.add('dimmed');
+    }
+  });
+
+  // Show current line
+  lines[current].classList.remove('dimmed');
+  lines[current].classList.add('visible');
+
+  // Scroll line into view smoothly
+  lines[current].scrollIntoView({behavior:'smooth', block:'center'});
+
+  // Update progress bar
+  const pct = ((current + 1) / TOTAL) * 100;
+  progress.style.width = pct + '%';
+
+  // Hide hint after first tap
+  if(current > 0) hint.classList.remove('show');
+
+  // Show hint again if not last
+  if(current < TOTAL - 1) {
+    setTimeout(() => hint.classList.add('show'), 1200);
+  }
+}
+
+// YouTube iframe API
+function startMusic() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+}
+
+window.onYouTubeIframeAPIReady = function() {
+  new YT.Player('yt-player', {
+    height:'1', width:'1',
+    videoId:'3XShkcOze3s',
+    playerVars:{
+      autoplay:1,
+      loop:1,
+      playlist:'3XShkcOze3s',
+      controls:0,
+      mute:0,
+      start:0
+    },
+    events:{
+      onReady: e => {
+        e.target.setVolume(40);
+        e.target.playVideo();
+      }
+    }
+  });
+};
+
+// Swipe up support
+let touchStartY = 0;
+document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if(dy > 30) nextLine();
+}, {passive:true});
+</script>
+</body>
+</html>
