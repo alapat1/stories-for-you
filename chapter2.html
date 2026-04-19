@@ -16,8 +16,7 @@
   --amber:#c8783a;
   --ink:#2a1808;
 }
-html{scroll-behavior:smooth;}
-body{background:var(--cream);font-family:'Cormorant Garamond',serif;overflow-x:hidden;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond',serif;}
 
 .dawn-bg{
   position:fixed;inset:0;z-index:-1;
@@ -43,27 +42,44 @@ body{background:var(--cream);font-family:'Cormorant Garamond',serif;overflow-x:h
   text-transform:uppercase;color:var(--amber);opacity:0.4;z-index:100;
 }
 
-/* POEM */
-.poem-section{
-  min-height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:100px 40px 80px;
+/* SNAP SCROLL ROOT */
+.scroll-root{
+  width:100%;height:100vh;
+  overflow-y:scroll;overflow-x:hidden;
+  scroll-snap-type:y mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
 }
+.scroll-root::-webkit-scrollbar{display:none;}
+
+/* each screen */
+.screen{
+  width:100%;height:100vh;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;
+}
+
+/* POEM stanza screens */
+.poem-screen{background:transparent;}
 .poem-title{
+  position:absolute;top:28px;left:50%;transform:translateX(-50%);
   font-family:'Caveat',cursive;font-size:10px;letter-spacing:4px;
-  text-transform:uppercase;color:var(--amber);opacity:0.5;
-  margin-bottom:60px;text-align:center;
+  text-transform:uppercase;color:var(--amber);opacity:0.4;
+  white-space:nowrap;
 }
-.poem-body{width:min(88vw,340px);display:flex;flex-direction:column;}
-.stanza{margin-bottom:48px;}
-.poem-line{
-  font-family:'Playfair Display',serif;font-style:italic;
-  font-size:clamp(17px,4.8vw,21px);color:var(--ink);
-  line-height:1.85;text-align:center;
+.stanza-wrap{
+  width:min(88vw,340px);text-align:center;
   opacity:0;transform:translateY(18px);
   transition:opacity 0.9s ease,transform 0.9s ease;
 }
-.poem-line.in{opacity:1;transform:translateY(0);}
+.stanza-wrap.in{opacity:1;transform:translateY(0);}
+.poem-line{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(17px,4.8vw,21px);color:var(--ink);
+  line-height:1.95;
+}
 
 /* DIVIDER */
 .section-divider{
@@ -118,363 +134,297 @@ body{background:var(--cream);font-family:'Cormorant Garamond',serif;overflow-x:h
 <a class="back-btn" href="index.html">← back</a>
 <div class="ch-label">ch. 02</div>
 
-<!-- POEM -->
-<div class="poem-section">
-  <div class="poem-title">✦ &nbsp; the other side &nbsp; ✦</div>
-  <div class="poem-body">
-    <div class="stanza">
+<div class="scroll-root" id="scrollRoot">
+
+  <!-- STANZA 1 -->
+  <div class="screen poem-screen" id="s1">
+    <div class="poem-title">✦ the other side ✦</div>
+    <div class="stanza-wrap">
       <div class="poem-line">I know you've crossed bridges,</div>
       <div class="poem-line">finding your way to me,</div>
       <div class="poem-line">To bring your light</div>
       <div class="poem-line">and show me the world.</div>
     </div>
-    <div class="stanza">
+  </div>
+
+  <!-- STANZA 2 -->
+  <div class="screen poem-screen" id="s2">
+    <div class="stanza-wrap">
       <div class="poem-line">I know I want to see you</div>
       <div class="poem-line">on the other side,</div>
       <div class="poem-line">having found the way to you,</div>
       <div class="poem-line">To bring you the warmth I've yearned.</div>
     </div>
-    <div class="stanza">
+  </div>
+
+  <!-- STANZA 3 -->
+  <div class="screen poem-screen" id="s3">
+    <div class="stanza-wrap">
       <div class="poem-line">To brighten your day,</div>
       <div class="poem-line">or lighten your night,</div>
       <div class="poem-line">I know you're not always around,</div>
       <div class="poem-line">day and night, each.</div>
     </div>
-    <div class="stanza">
+  </div>
+
+  <!-- STANZA 4 -->
+  <div class="screen poem-screen" id="s4">
+    <div class="stanza-wrap">
       <div class="poem-line">But always know that,</div>
       <div class="poem-line">wherever you are,</div>
       <div class="poem-line">My arms will always be in reach.</div>
     </div>
   </div>
-</div>
 
-<!-- DIVIDER -->
-<div class="section-divider" id="divider">
-  <div class="div-line"></div>
-  <div class="div-mark">✦</div>
-  <div class="div-line"></div>
-</div>
-
-<!-- ILLUSTRATIONS -->
-<div class="illus-section">
-
-  <!-- 1: The Bridge -->
-  <div class="illus-block" id="illus1">
-    <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
-      <rect width="420" height="280" fill="#faf2e8" opacity="0.4"/>
-      <!-- hills -->
-      <path d="M0 190 C80 165 160 175 240 162 C310 150 370 168 420 158 L420 280 L0 280Z" fill="#e8d0c0" opacity="0.3"/>
-      <!-- water -->
-      <path d="M0 238 Q210 228 420 238 L420 280 L0 280Z" fill="#d8c4b8" opacity="0.28"/>
-      <g stroke="#c8a898" stroke-width="0.6" fill="none" opacity="0.25">
-        <path d="M40 248 Q100 244 160 248"/><path d="M180 252 Q240 248 300 252"/>
-        <path d="M60 260 Q120 256 180 260"/><path d="M240 258 Q300 254 360 258"/>
-      </g>
-      <!-- bridge arch -->
-      <path d="M40 232 Q210 95 380 232" stroke="#8a5030" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <!-- deck -->
-      <line x1="28" y1="232" x2="392" y2="232" stroke="#8a5030" stroke-width="2.5"/>
-      <line x1="28" y1="238" x2="392" y2="238" stroke="#8a5030" stroke-width="1.2" opacity="0.4"/>
-      <!-- top tower -->
-      <line x1="210" y1="95" x2="210" y2="232" stroke="#8a5030" stroke-width="1.5" opacity="0.45"/>
-      <!-- cables left -->
-      <g stroke="#8a5030" stroke-width="0.9" fill="none" opacity="0.5">
-        <line x1="210" y1="100" x2="70"  y2="232"/>
-        <line x1="210" y1="100" x2="112" y2="232"/>
-        <line x1="210" y1="100" x2="154" y2="232"/>
-        <line x1="210" y1="100" x2="186" y2="232"/>
-      </g>
-      <!-- cables right -->
-      <g stroke="#8a5030" stroke-width="0.9" fill="none" opacity="0.5">
-        <line x1="210" y1="100" x2="350" y2="232"/>
-        <line x1="210" y1="100" x2="308" y2="232"/>
-        <line x1="210" y1="100" x2="266" y2="232"/>
-        <line x1="210" y1="100" x2="234" y2="232"/>
-      </g>
-      <!-- railing posts -->
-      <g stroke="#8a5030" stroke-width="0.9" fill="none" opacity="0.35">
-        <line x1="65"  y1="220" x2="65"  y2="232"/><line x1="95"  y1="215" x2="95"  y2="232"/>
-        <line x1="125" y1="211" x2="125" y2="232"/><line x1="155" y1="209" x2="155" y2="232"/>
-        <line x1="185" y1="208" x2="185" y2="232"/><line x1="235" y1="208" x2="235" y2="232"/>
-        <line x1="265" y1="209" x2="265" y2="232"/><line x1="295" y1="211" x2="295" y2="232"/>
-        <line x1="325" y1="215" x2="325" y2="232"/><line x1="355" y1="220" x2="355" y2="232"/>
-      </g>
-      <path d="M55 220 Q210 207 365 220" stroke="#8a5030" stroke-width="0.9" fill="none" opacity="0.35"/>
-      <!-- figure walking on bridge -->
-      <g transform="translate(148,205)" stroke="#8a5030" fill="none" stroke-linecap="round">
-        <ellipse cx="0" cy="-22" rx="9" ry="10" fill="#f0ddd0" stroke-width="1.4"/>
-        <path d="M-9 -26 C-9 -34 9 -34 9 -26" fill="#2a1808" stroke="#2a1808" stroke-width="2"/>
-        <path d="M-9 -26 C-13 -18 -13 -6 -11 4" stroke-width="4" stroke="#2a1808" fill="none"/>
-        <path d="M-5 -13 L-7 8 M5 -13 L7 8" stroke-width="1.6" stroke="#3a6830"/>
-        <path d="M-7 4 L-11 18 M7 4 L11 18" stroke-width="1.4" stroke="#3a6830"/>
-        <path d="M-11 18 Q0 22 11 18" stroke-width="1.1" stroke="#3a6830"/>
-        <path d="M5 -8 C12 -12 20 -14 26 -12" stroke-width="1.4"/>
-        <line x1="-3" y1="8" x2="-7" y2="22" stroke-width="1.4"/>
-        <line x1="3"  y1="8" x2="1"  y2="22" stroke-width="1.4"/>
-      </g>
-      <!-- dawn light -->
-      <ellipse cx="210" cy="160" rx="130" ry="45" fill="#f5c870" opacity="0.07"/>
-      <!-- birds -->
-      <g stroke="#8a5030" stroke-width="0.8" fill="none" opacity="0.2">
-        <path d="M75 75 C79 71 83 71 87 75"/><path d="M105 60 C109 56 113 56 117 60"/>
-        <path d="M295 68 C299 64 303 64 307 68"/>
-      </g>
-    </svg>
-    <div class="illus-caption">crossing bridges</div>
-  </div>
-
-  <!-- 2: Holding Light -->
-  <div class="illus-block" id="illus2">
-    <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="lg2" cx="35%" cy="25%" r="45%">
-          <stop offset="0%" stop-color="#f5c870" stop-opacity="0.32"/>
-          <stop offset="100%" stop-color="#f5c870" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="420" height="320" fill="#faf2e8" opacity="0.4"/>
-      <ellipse cx="165" cy="100" rx="160" ry="140" fill="url(#lg2)"/>
-      <!-- stars -->
-      <g fill="#c8783a" opacity="0.25">
-        <circle cx="55"  cy="35" r="1.2"/><circle cx="105" cy="20" r="1"/>
-        <circle cx="165" cy="30" r="1.4"/><circle cx="230" cy="18" r="1"/>
-        <circle cx="295" cy="28" r="1.2"/><circle cx="355" cy="18" r="1.3"/>
-        <circle cx="395" cy="38" r="1"/>  <circle cx="140" cy="55" r="0.8"/>
-        <circle cx="260" cy="48" r="1"/>  <circle cx="320" cy="58" r="0.8"/>
-      </g>
-      <!-- figure holding lantern — centered left -->
-      <g transform="translate(210,70)" stroke="#8a5030" fill="none" stroke-linecap="round">
-        <!-- head -->
-        <ellipse cx="0" cy="0" rx="22" ry="24" stroke-width="1.5" fill="#f0ddd0"/>
-        <!-- hair -->
-        <path d="M-22 4 C-22 -16 -8 -26 0 -28 C8 -26 22 -16 22 4" fill="#2a1808" stroke="#2a1808" stroke-width="1"/>
-        <path d="M-22 4 C-26 16 -26 38 -24 58 C-22 78 -22 108 -24 130" stroke-width="8" stroke="#2a1808" fill="none"/>
-        <!-- neck -->
-        <rect x="-7" y="22" width="14" height="14" rx="4" fill="#f0ddd0" stroke-width="0.9"/>
-        <!-- body -->
-        <path d="M-15 36 C-18 50 -18 72 -15 90 L15 90 C18 72 18 50 15 36 Q7 30 0 30 Q-7 30 -15 36Z"
-              fill="#f0ddd0" stroke-width="1.4"/>
-        <!-- LEFT arm raised holding lantern -->
-        <path d="M-15 44 C-26 35 -38 22 -46 10" stroke-width="11" stroke="#f0ddd0" stroke-linecap="round"/>
-        <path d="M-15 42 C-26 33 -38 20 -46 8" stroke-width="7" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
-        <!-- LANTERN -->
-        <g transform="translate(-50,2)">
-          <rect x="-11" y="-20" width="22" height="30" rx="3" fill="#f5f0e0" stroke="#8a5030" stroke-width="1.4"/>
-          <line x1="-4" y1="-20" x2="-4" y2="10" stroke="#8a5030" stroke-width="0.6" opacity="0.4"/>
-          <line x1="4"  y1="-20" x2="4"  y2="10" stroke="#8a5030" stroke-width="0.6" opacity="0.4"/>
-          <path d="M-11 -5 Q0 -2 11 -5" stroke="#8a5030" stroke-width="0.5" fill="none" opacity="0.3"/>
-          <path d="M-13 -20 Q0 -27 13 -20 L11 -15 Q0 -19 -11 -15Z" fill="#c8a040" stroke="#8a5030" stroke-width="1.1"/>
-          <path d="M-11 10 Q0 15 11 10 L9 18 Q0 22 -9 18Z" fill="#c8a040" stroke="#8a5030" stroke-width="1.1"/>
-          <path d="M0 -27 C0 -34 7 -36 7 -30" stroke="#8a5030" stroke-width="1.2" fill="none"/>
-          <path d="M0 -4 C-3 -10 -3 -17 0 -22 C3 -17 3 -10 0 -4Z" fill="#FFD54F" opacity="0.95"/>
-          <path d="M0 -6 C-1.8 -11 -1.8 -17 0 -20 C1.8 -17 1.8 -11 0 -6Z" fill="#FF8F00" opacity="0.7"/>
+  <!-- ILLUSTRATION 1: Bridge -->
+  <div class="screen" id="illus1">
+    <div class="illus-block" style="width:min(96vw,420px);opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease;">
+      <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+        <rect width="420" height="280" fill="#faf2e8" opacity="0.4"/>
+        <path d="M0 190 C80 165 160 175 240 162 C310 150 370 168 420 158 L420 280 L0 280Z" fill="#e8d0c0" opacity="0.3"/>
+        <path d="M0 238 Q210 228 420 238 L420 280 L0 280Z" fill="#d8c4b8" opacity="0.28"/>
+        <g stroke="#c8a898" stroke-width="0.6" fill="none" opacity="0.25">
+          <path d="M40 248 Q100 244 160 248"/><path d="M180 252 Q240 248 300 252"/>
+          <path d="M60 260 Q120 256 180 260"/><path d="M240 258 Q300 254 360 258"/>
         </g>
-        <!-- RIGHT arm relaxed -->
-        <path d="M15 44 C22 60 24 82 22 106" stroke-width="10" stroke="#f0ddd0" stroke-linecap="round"/>
-        <!-- legs -->
-        <path d="M-14 80 L-18 130 M14 80 L18 130" stroke-width="2" stroke="#e8d0c0"/>
-        <path d="M-20 128 Q-10 134 0 132"  stroke-width="1.4" fill="none"/>
-        <path d="M16 128 Q26 134 36 132" stroke-width="1.4" fill="none"/>
-      </g>
-      <!-- light rays -->
-      <g stroke="#f5c870" stroke-width="1.5" fill="none" opacity="0.18">
-        <line x1="160" y1="72" x2="100" y2="30"/><line x1="156" y1="78" x2="86"  y2="62"/>
-        <line x1="158" y1="86" x2="90"  y2="96"/><line x1="163" y1="68" x2="138" y2="22"/>
-        <line x1="168" y1="66" x2="170" y2="18"/>
-      </g>
-    </svg>
-    <div class="illus-caption">bringing light</div>
+        <path d="M40 232 Q210 95 380 232" stroke="#8a5030" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <line x1="28" y1="232" x2="392" y2="232" stroke="#8a5030" stroke-width="2.5"/>
+        <line x1="28" y1="238" x2="392" y2="238" stroke="#8a5030" stroke-width="1.2" opacity="0.4"/>
+        <line x1="210" y1="95" x2="210" y2="232" stroke="#8a5030" stroke-width="1.5" opacity="0.45"/>
+        <g stroke="#8a5030" stroke-width="0.9" fill="none" opacity="0.5">
+          <line x1="210" y1="100" x2="70"  y2="232"/><line x1="210" y1="100" x2="112" y2="232"/>
+          <line x1="210" y1="100" x2="154" y2="232"/><line x1="210" y1="100" x2="186" y2="232"/>
+          <line x1="210" y1="100" x2="350" y2="232"/><line x1="210" y1="100" x2="308" y2="232"/>
+          <line x1="210" y1="100" x2="266" y2="232"/><line x1="210" y1="100" x2="234" y2="232"/>
+        </g>
+        <g stroke="#8a5030" stroke-width="0.9" fill="none" opacity="0.35">
+          <line x1="65"  y1="220" x2="65"  y2="232"/><line x1="95"  y1="215" x2="95"  y2="232"/>
+          <line x1="125" y1="211" x2="125" y2="232"/><line x1="155" y1="209" x2="155" y2="232"/>
+          <line x1="185" y1="208" x2="185" y2="232"/><line x1="235" y1="208" x2="235" y2="232"/>
+          <line x1="265" y1="209" x2="265" y2="232"/><line x1="295" y1="211" x2="295" y2="232"/>
+          <line x1="325" y1="215" x2="325" y2="232"/><line x1="355" y1="220" x2="355" y2="232"/>
+        </g>
+        <path d="M55 220 Q210 207 365 220" stroke="#8a5030" stroke-width="0.9" fill="none" opacity="0.35"/>
+        <g transform="translate(148,205)" stroke="#8a5030" fill="none" stroke-linecap="round">
+          <ellipse cx="0" cy="-22" rx="9" ry="10" fill="#f0ddd0" stroke-width="1.4"/>
+          <path d="M-9 -26 C-9 -34 9 -34 9 -26" fill="#2a1808" stroke="#2a1808" stroke-width="2"/>
+          <path d="M-9 -26 C-13 -18 -13 -6 -11 4" stroke-width="4" stroke="#2a1808" fill="none"/>
+          <path d="M-5 -13 L-7 8 M5 -13 L7 8" stroke-width="1.6" stroke="#3a6830"/>
+          <path d="M-7 4 L-11 18 M7 4 L11 18" stroke-width="1.4" stroke="#3a6830"/>
+          <path d="M-11 18 Q0 22 11 18" stroke-width="1.1" stroke="#3a6830"/>
+          <path d="M5 -8 C12 -12 20 -14 26 -12" stroke-width="1.4"/>
+          <line x1="-3" y1="8" x2="-7" y2="22" stroke-width="1.4"/>
+          <line x1="3"  y1="8" x2="1"  y2="22" stroke-width="1.4"/>
+        </g>
+        <ellipse cx="210" cy="160" rx="130" ry="45" fill="#f5c870" opacity="0.07"/>
+        <g stroke="#8a5030" stroke-width="0.8" fill="none" opacity="0.2">
+          <path d="M75 75 C79 71 83 71 87 75"/><path d="M105 60 C109 56 113 56 117 60"/>
+          <path d="M295 68 C299 64 303 64 307 68"/>
+        </g>
+      </svg>
+    </div>
   </div>
 
-  <!-- 3: Two figures walking toward each other -->
-  <div class="illus-block" id="illus3">
-    <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="mg3" cx="50%" cy="65%" r="45%">
-          <stop offset="0%" stop-color="#f5c870" stop-opacity="0.2"/>
-          <stop offset="100%" stop-color="#f5c870" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="420" height="260" fill="#faf2e8" opacity="0.4"/>
-      <ellipse cx="210" cy="185" rx="185" ry="100" fill="url(#mg3)"/>
-      <!-- ground -->
-      <line x1="0" y1="222" x2="420" y2="222" stroke="#d4a898" stroke-width="0.8" opacity="0.35"/>
-      <path d="M0 222 Q210 214 420 222" stroke="#d4a898" stroke-width="0.5" fill="none" opacity="0.25"/>
-      <!-- path dots -->
-      <g fill="#c8a090" opacity="0.2">
-        <circle cx="105" cy="220" r="2"/><circle cx="210" cy="217" r="2.5"/><circle cx="315" cy="220" r="2"/>
-      </g>
-      <!-- HER left -->
-      <g transform="translate(82,112)" stroke="#8a5030" fill="none" stroke-linecap="round">
-        <ellipse cx="0" cy="0" rx="18" ry="20" stroke-width="1.4" fill="#f0ddd0"/>
-        <path d="M-18 4 C-18 -12 -8 -22 0 -24 C8 -22 18 -12 18 4" fill="#2a1808" stroke="#2a1808" stroke-width="0.9"/>
-        <path d="M-18 4 C-22 14 -22 28 -20 44" stroke-width="6" stroke="#2a1808" fill="none"/>
-        <rect x="-5" y="18" width="10" height="10" rx="3" fill="#f0ddd0" stroke-width="0.7"/>
-        <path d="M-12 28 C-14 40 -14 58 -12 72 L12 72 C14 58 14 40 12 28 Q6 24 0 24 Q-6 24 -12 28Z"
-              fill="#3a6830" stroke="#2a5020" stroke-width="1.2"/>
-        <path d="M-12 64 L-16 95 M12 64 L16 95" stroke-width="1.5" stroke="#3a6830"/>
-        <path d="M-16 95 Q0 100 16 95" stroke-width="1.2" stroke="#3a6830"/>
-        <!-- left arm relaxed -->
-        <path d="M-12 32 C-18 46 -20 62 -18 78" stroke-width="8" stroke="#f0ddd0" stroke-linecap="round"/>
-        <!-- right arm reaching -->
-        <path d="M12 32 C22 26 36 22 50 20" stroke-width="8" stroke="#f0ddd0" stroke-linecap="round"/>
-        <path d="M50 18 C56 14 62 14 64 20 C66 26 62 32 57 32 C52 32 47 28 48 23 C49 19 50 18 50 18Z"
-              fill="#f0ddd0" stroke="#c0a080" stroke-width="0.9"/>
-        <line x1="-6" y1="72" x2="-10" y2="95" stroke-width="1.5"/>
-        <line x1="6"  y1="72" x2="4"   y2="95" stroke-width="1.5"/>
-        <path d="M-12 93 Q-4 99 4 97"  stroke-width="1.2" fill="none"/>
-        <path d="M2 93  Q10 99 18 97"  stroke-width="1.2" fill="none"/>
-      </g>
-      <!-- HIM right -->
-      <g transform="translate(318,108)" stroke="#8a5030" fill="none" stroke-linecap="round">
-        <ellipse cx="0" cy="0" rx="20" ry="22" stroke-width="1.4" fill="#f0ddd0"/>
-        <path d="M-20 4 C-20 -14 -8 -24 0 -26 C8 -24 20 -14 20 4" fill="#2a1808" stroke="#2a1808" stroke-width="0.9"/>
-        <rect x="-6" y="20" width="12" height="11" rx="3" fill="#f0ddd0" stroke-width="0.7"/>
-        <path d="M-14 30 C-16 44 -16 64 -14 80 L14 80 C16 64 16 44 14 30 Q6 26 0 26 Q-6 26 -14 30Z"
-              fill="#1c1818" stroke="#2a2020" stroke-width="1.3"/>
-        <!-- left arm reaching toward her -->
-        <path d="M-14 36 C-26 30 -42 26 -56 24" stroke-width="11" stroke="#f0ddd0" stroke-linecap="round"/>
-        <path d="M-58 22 C-64 18 -70 18 -72 24 C-74 30 -70 36 -64 36 C-58 36 -52 32 -53 26 C-53 22 -56 21 -58 22Z"
-              fill="#e8c8b0" stroke="#c0a080" stroke-width="0.9"/>
-        <!-- right arm relaxed -->
-        <path d="M14 36 C20 52 22 70 20 90" stroke-width="10" stroke="#f0ddd0" stroke-linecap="round"/>
-        <line x1="-6" y1="80" x2="-4" y2="108" stroke-width="1.8"/>
-        <line x1="6"  y1="80" x2="10" y2="108" stroke-width="1.8"/>
-        <path d="M-6 106  Q2 112 10 110"  stroke-width="1.3" fill="none"/>
-        <path d="M8 106   Q18 112 26 110" stroke-width="1.3" fill="none"/>
-      </g>
-      <!-- warm dot between them -->
-      <ellipse cx="210" cy="158" rx="8" ry="4" fill="#f5c870" opacity="0.28"/>
-      <path d="M146 134 Q210 129 262 134" stroke="#d4a898" stroke-width="0.6" stroke-dasharray="3 5" fill="none" opacity="0.3"/>
-    </svg>
-    <div class="illus-caption">finding the way</div>
+  <!-- ILLUSTRATION 2: Light -->
+  <div class="screen" id="illus2">
+    <div class="illus-block" style="width:min(96vw,420px);opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease;">
+      <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="lg2" cx="35%" cy="25%" r="45%">
+            <stop offset="0%" stop-color="#f5c870" stop-opacity="0.32"/>
+            <stop offset="100%" stop-color="#f5c870" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="420" height="320" fill="#faf2e8" opacity="0.4"/>
+        <ellipse cx="165" cy="100" rx="160" ry="140" fill="url(#lg2)"/>
+        <g fill="#c8783a" opacity="0.25">
+          <circle cx="55"  cy="35" r="1.2"/><circle cx="105" cy="20" r="1"/>
+          <circle cx="165" cy="30" r="1.4"/><circle cx="230" cy="18" r="1"/>
+          <circle cx="295" cy="28" r="1.2"/><circle cx="355" cy="18" r="1.3"/>
+          <circle cx="395" cy="38" r="1"/>  <circle cx="140" cy="55" r="0.8"/>
+        </g>
+        <g transform="translate(210,70)" stroke="#8a5030" fill="none" stroke-linecap="round">
+          <ellipse cx="0" cy="0" rx="22" ry="24" stroke-width="1.5" fill="#f0ddd0"/>
+          <path d="M-22 4 C-22 -16 -8 -26 0 -28 C8 -26 22 -16 22 4" fill="#2a1808" stroke="#2a1808" stroke-width="1"/>
+          <path d="M-22 4 C-26 16 -26 38 -24 58 C-22 78 -22 108 -24 130" stroke-width="8" stroke="#2a1808" fill="none"/>
+          <rect x="-7" y="22" width="14" height="14" rx="4" fill="#f0ddd0" stroke-width="0.9"/>
+          <path d="M-15 36 C-18 50 -18 72 -15 90 L15 90 C18 72 18 50 15 36 Q7 30 0 30 Q-7 30 -15 36Z" fill="#f0ddd0" stroke-width="1.4"/>
+          <path d="M-15 44 C-26 35 -38 22 -46 10" stroke-width="11" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M-15 42 C-26 33 -38 20 -46 8" stroke-width="7" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
+          <g transform="translate(-50,2)">
+            <rect x="-11" y="-20" width="22" height="30" rx="3" fill="#f5f0e0" stroke="#8a5030" stroke-width="1.4"/>
+            <line x1="-4" y1="-20" x2="-4" y2="10" stroke="#8a5030" stroke-width="0.6" opacity="0.4"/>
+            <line x1="4"  y1="-20" x2="4"  y2="10" stroke="#8a5030" stroke-width="0.6" opacity="0.4"/>
+            <path d="M-13 -20 Q0 -27 13 -20 L11 -15 Q0 -19 -11 -15Z" fill="#c8a040" stroke="#8a5030" stroke-width="1.1"/>
+            <path d="M-11 10 Q0 15 11 10 L9 18 Q0 22 -9 18Z" fill="#c8a040" stroke="#8a5030" stroke-width="1.1"/>
+            <path d="M0 -27 C0 -34 7 -36 7 -30" stroke="#8a5030" stroke-width="1.2" fill="none"/>
+            <path d="M0 -4 C-3 -10 -3 -17 0 -22 C3 -17 3 -10 0 -4Z" fill="#FFD54F" opacity="0.95"/>
+            <path d="M0 -6 C-1.8 -11 -1.8 -17 0 -20 C1.8 -17 1.8 -11 0 -6Z" fill="#FF8F00" opacity="0.7"/>
+          </g>
+          <path d="M15 44 C22 60 24 82 22 106" stroke-width="10" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M-14 80 L-18 130 M14 80 L18 130" stroke-width="2" stroke="#e8d0c0"/>
+          <path d="M-20 128 Q-10 134 0 132" stroke-width="1.4" fill="none"/>
+          <path d="M16 128 Q26 134 36 132" stroke-width="1.4" fill="none"/>
+        </g>
+        <g stroke="#f5c870" stroke-width="1.5" fill="none" opacity="0.18">
+          <line x1="160" y1="72" x2="100" y2="30"/><line x1="156" y1="78" x2="86"  y2="62"/>
+          <line x1="158" y1="86" x2="90"  y2="96"/><line x1="163" y1="68" x2="138" y2="22"/>
+          <line x1="168" y1="66" x2="170" y2="18"/>
+        </g>
+      </svg>
+    </div>
   </div>
 
-  <!-- 4: THE EMBRACE — arms wide open -->
-  <div class="illus-block" id="illus4">
-    <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="hg4" cx="50%" cy="48%" r="50%">
-          <stop offset="0%" stop-color="#f5c870" stop-opacity="0.32"/>
-          <stop offset="100%" stop-color="#f5c870" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="hg4b" cx="50%" cy="48%" r="30%">
-          <stop offset="0%" stop-color="#f5a870" stop-opacity="0.18"/>
-          <stop offset="100%" stop-color="#f5a870" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="420" height="340" fill="#faf2e8" opacity="0.4"/>
-      <ellipse cx="210" cy="170" rx="210" ry="170" fill="url(#hg4)"/>
-      <ellipse cx="210" cy="170" rx="110" ry="110" fill="url(#hg4b)"/>
-      <!-- ground -->
-      <line x1="50" y1="290" x2="370" y2="290" stroke="#d4a898" stroke-width="0.7" opacity="0.3"/>
-
-      <!-- HER — left, stepping in, arms reaching around him -->
-      <g transform="translate(148,88)" stroke="#8a5030" fill="none" stroke-linecap="round">
-        <ellipse cx="0" cy="0" rx="20" ry="22" stroke-width="1.5" fill="#f0ddd0"/>
-        <path d="M-20 4 C-20 -14 -8 -24 0 -26 C8 -24 20 -14 20 4" fill="#2a1808" stroke="#2a1808" stroke-width="0.9"/>
-        <path d="M-20 4 C-24 16 -24 38 -22 60 C-20 82 -20 110 -22 132" stroke-width="8" stroke="#2a1808" fill="none"/>
-        <path d="M-18 6 C-22 20 -22 42 -20 64" stroke-width="5" stroke="#1a0e00" fill="none" opacity="0.5"/>
-        <rect x="-6" y="20" width="12" height="12" rx="4" fill="#f0ddd0" stroke-width="0.8"/>
-        <!-- dress -->
-        <path d="M-14 32 C-16 46 -16 68 -14 86 L14 86 C16 68 16 46 14 32 Q6 28 0 28 Q-6 28 -14 32Z"
-              fill="#3a6830" stroke="#2a5020" stroke-width="1.3"/>
-        <path d="M-14 78 L-18 122 M14 78 L18 122" stroke-width="2" stroke="#3a6830"/>
-        <path d="M-18 122 Q0 128 18 122" stroke-width="1.4" stroke="#3a6830"/>
-        <!-- LEFT arm wrapping around him -->
-        <path d="M-14 40 C-4 32 8 28 22 26 C36 24 54 24 68 30 C80 35 88 44 90 54"
-              stroke-width="11" stroke="#f0ddd0" stroke-linecap="round"/>
-        <path d="M-14 38 C-4 30 8 26 22 24 C36 22 54 22 68 28 C80 33 88 42 90 52"
-              stroke-width="7" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
-        <!-- RIGHT arm also reaching -->
-        <path d="M14 40 C24 33 38 29 54 31 C70 33 84 42 90 54"
-              stroke-width="10" stroke="#f0ddd0" stroke-linecap="round"/>
-        <path d="M14 38 C24 31 38 27 54 29 C70 31 84 40 90 52"
-              stroke-width="6" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
-        <!-- legs -->
-        <line x1="-6" y1="86" x2="-8" y2="122" stroke-width="1.8"/>
-        <line x1="6"  y1="86" x2="4"  y2="122" stroke-width="1.8"/>
-        <path d="M-10 120 Q-2 127 6 125"  stroke-width="1.3" fill="none"/>
-        <path d="M2 120   Q10 127 18 125" stroke-width="1.3" fill="none"/>
-      </g>
-
-      <!-- HIM — right, ARMS WIDE OPEN -->
-      <g transform="translate(278,84)" stroke="#8a5030" fill="none" stroke-linecap="round">
-        <ellipse cx="0" cy="0" rx="22" ry="25" stroke-width="1.5" fill="#f0ddd0"/>
-        <path d="M-22 5 C-22 -16 -8 -27 0 -29 C8 -27 22 -16 22 5" fill="#2a1808" stroke="#2a1808" stroke-width="0.9"/>
-        <rect x="-7" y="23" width="14" height="14" rx="4" fill="#f0ddd0" stroke-width="0.8"/>
-        <!-- dark shirt -->
-        <path d="M-16 37 C-18 52 -18 74 -16 92 L16 92 C18 74 18 52 16 37 Q8 32 0 32 Q-8 32 -16 37Z"
-              fill="#1c1818" stroke="#2a2020" stroke-width="1.4"/>
-        <!-- LEFT arm WIDE OPEN — extending far left toward her -->
-        <path d="M-16 46 C-30 37 -54 30 -76 26 C-94 22 -112 22 -124 30"
-              stroke-width="15" stroke="#f0ddd0" stroke-linecap="round"/>
-        <path d="M-16 44 C-30 35 -54 28 -76 24 C-94 20 -112 20 -124 28"
-              stroke-width="9" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
-        <!-- his left hand open wide -->
-        <path d="M-126 28 C-135 22 -142 23 -143 30 C-144 37 -138 44 -131 43 C-124 42 -119 37 -120 30 C-121 25 -124 23 -126 28Z"
-              fill="#e8c8b0" stroke="#c0a080" stroke-width="1"/>
-        <line x1="-140" y1="24" x2="-148" y2="14" stroke-width="1.2" stroke="#c0a080"/>
-        <line x1="-136" y1="22" x2="-142" y2="11" stroke-width="1.2" stroke="#c0a080"/>
-        <line x1="-130" y1="21" x2="-134" y2="10" stroke-width="1.2" stroke="#c0a080"/>
-        <line x1="-124" y1="22" x2="-126" y2="11" stroke-width="1" stroke="#c0a080"/>
-        <!-- RIGHT arm WIDE OPEN — extending far right -->
-        <path d="M16 46 C30 37 52 30 72 28 C90 26 108 28 118 38"
-              stroke-width="14" stroke="#f0ddd0" stroke-linecap="round"/>
-        <path d="M16 44 C30 35 52 28 72 26 C90 24 108 26 118 36"
-              stroke-width="8" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
-        <!-- right hand -->
-        <path d="M120 36 C128 30 135 31 136 38 C137 45 131 52 124 51 C117 50 112 45 114 38 C115 33 118 31 120 36Z"
-              fill="#e8c8b0" stroke="#c0a080" stroke-width="1"/>
-        <!-- legs -->
-        <line x1="-6" y1="92" x2="-4" y2="130" stroke-width="2"/>
-        <line x1="6"  y1="92" x2="10" y2="130" stroke-width="2"/>
-        <path d="M-6 128  Q2 136 10 133"  stroke-width="1.4" fill="none"/>
-        <path d="M8 128   Q18 136 26 133" stroke-width="1.4" fill="none"/>
-      </g>
-
-      <!-- warm glow between them -->
-      <ellipse cx="216" cy="162" rx="32" ry="22" fill="#f5c870" opacity="0.22"/>
-      <!-- warmth dots -->
-      <g fill="#d4a090" opacity="0.2">
-        <circle cx="200" cy="128" r="3.5"/>
-        <circle cx="222" cy="116" r="2.5"/>
-        <circle cx="240" cy="126" r="3"/>
-      </g>
-
-      <!-- final poem line -->
-      <text x="210" y="318" text-anchor="middle"
-            font-family="Playfair Display, serif" font-style="italic"
-            font-size="13.5" fill="#8a5030" opacity="0.42" letter-spacing="1">
-        my arms will always be in reach.
-      </text>
-    </svg>
-    <div class="illus-caption">in reach</div>
+  <!-- ILLUSTRATION 3: Two walking toward each other -->
+  <div class="screen" id="illus3">
+    <div class="illus-block" style="width:min(96vw,420px);opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease;">
+      <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="mg3" cx="50%" cy="65%" r="45%">
+            <stop offset="0%" stop-color="#f5c870" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#f5c870" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="420" height="260" fill="#faf2e8" opacity="0.4"/>
+        <ellipse cx="210" cy="185" rx="185" ry="100" fill="url(#mg3)"/>
+        <line x1="0" y1="222" x2="420" y2="222" stroke="#d4a898" stroke-width="0.8" opacity="0.35"/>
+        <path d="M0 222 Q210 214 420 222" stroke="#d4a898" stroke-width="0.5" fill="none" opacity="0.25"/>
+        <g fill="#c8a090" opacity="0.2">
+          <circle cx="105" cy="220" r="2"/><circle cx="210" cy="217" r="2.5"/><circle cx="315" cy="220" r="2"/>
+        </g>
+        <g transform="translate(82,112)" stroke="#8a5030" fill="none" stroke-linecap="round">
+          <ellipse cx="0" cy="0" rx="18" ry="20" stroke-width="1.4" fill="#f0ddd0"/>
+          <path d="M-18 4 C-18 -12 -8 -22 0 -24 C8 -22 18 -12 18 4" fill="#2a1808" stroke="#2a1808" stroke-width="0.9"/>
+          <path d="M-18 4 C-22 14 -22 28 -20 44" stroke-width="6" stroke="#2a1808" fill="none"/>
+          <rect x="-5" y="18" width="10" height="10" rx="3" fill="#f0ddd0" stroke-width="0.7"/>
+          <path d="M-12 28 C-14 40 -14 58 -12 72 L12 72 C14 58 14 40 12 28 Q6 24 0 24 Q-6 24 -12 28Z" fill="#3a6830" stroke="#2a5020" stroke-width="1.2"/>
+          <path d="M-12 64 L-16 95 M12 64 L16 95" stroke-width="1.5" stroke="#3a6830"/>
+          <path d="M-16 95 Q0 100 16 95" stroke-width="1.2" stroke="#3a6830"/>
+          <path d="M-12 32 C-18 46 -20 62 -18 78" stroke-width="8" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M12 32 C22 26 36 22 50 20" stroke-width="8" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M50 18 C56 14 62 14 64 20 C66 26 62 32 57 32 C52 32 47 28 48 23 C49 19 50 18 50 18Z" fill="#f0ddd0" stroke="#c0a080" stroke-width="0.9"/>
+          <line x1="-6" y1="72" x2="-10" y2="95" stroke-width="1.5"/>
+          <line x1="6"  y1="72" x2="4"   y2="95" stroke-width="1.5"/>
+          <path d="M-12 93 Q-4 99 4 97"  stroke-width="1.2" fill="none"/>
+          <path d="M2 93  Q10 99 18 97"  stroke-width="1.2" fill="none"/>
+        </g>
+        <g transform="translate(318,108)" stroke="#8a5030" fill="none" stroke-linecap="round">
+          <ellipse cx="0" cy="0" rx="20" ry="22" stroke-width="1.4" fill="#f0ddd0"/>
+          <path d="M-20 4 C-20 -14 -8 -24 0 -26 C8 -24 20 -14 20 4" fill="#2a1808" stroke="#2a1808" stroke-width="0.9"/>
+          <rect x="-6" y="20" width="12" height="11" rx="3" fill="#f0ddd0" stroke-width="0.7"/>
+          <path d="M-14 30 C-16 44 -16 64 -14 80 L14 80 C16 64 16 44 14 30 Q6 26 0 26 Q-6 26 -14 30Z" fill="#1c1818" stroke="#2a2020" stroke-width="1.3"/>
+          <path d="M-14 36 C-26 30 -42 26 -56 24" stroke-width="11" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M-58 22 C-64 18 -70 18 -72 24 C-74 30 -70 36 -64 36 C-58 36 -52 32 -53 26 C-53 22 -56 21 -58 22Z" fill="#e8c8b0" stroke="#c0a080" stroke-width="0.9"/>
+          <path d="M14 36 C20 52 22 70 20 90" stroke-width="10" stroke="#f0ddd0" stroke-linecap="round"/>
+          <line x1="-6" y1="80" x2="-4" y2="108" stroke-width="1.8"/>
+          <line x1="6"  y1="80" x2="10" y2="108" stroke-width="1.8"/>
+          <path d="M-6 106  Q2 112 10 110"  stroke-width="1.3" fill="none"/>
+          <path d="M8 106   Q18 112 26 110" stroke-width="1.3" fill="none"/>
+        </g>
+        <ellipse cx="210" cy="158" rx="8" ry="4" fill="#f5c870" opacity="0.28"/>
+        <path d="M146 134 Q210 129 262 134" stroke="#d4a898" stroke-width="0.6" stroke-dasharray="3 5" fill="none" opacity="0.3"/>
+      </svg>
+    </div>
   </div>
 
-  <!-- END -->
-  <div class="end-block" id="endBlock">
-    <div class="end-line">✦ &nbsp; ch. 02 &nbsp; ✦</div>
-    <a class="end-back" href="index.html">← back to chapters</a>
+  <!-- ILLUSTRATION 4: The Embrace -->
+  <div class="screen" id="illus4">
+    <div class="illus-block" style="width:min(96vw,420px);opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease;">
+      <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="hg4" cx="50%" cy="48%" r="50%">
+            <stop offset="0%" stop-color="#f5c870" stop-opacity="0.32"/>
+            <stop offset="100%" stop-color="#f5c870" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="hg4b" cx="50%" cy="48%" r="30%">
+            <stop offset="0%" stop-color="#f5a870" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#f5a870" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="420" height="340" fill="#faf2e8" opacity="0.4"/>
+        <ellipse cx="210" cy="170" rx="210" ry="170" fill="url(#hg4)"/>
+        <ellipse cx="210" cy="170" rx="110" ry="110" fill="url(#hg4b)"/>
+        <line x1="50" y1="290" x2="370" y2="290" stroke="#d4a898" stroke-width="0.7" opacity="0.3"/>
+        <g transform="translate(148,88)" stroke="#8a5030" fill="none" stroke-linecap="round">
+          <ellipse cx="0" cy="0" rx="20" ry="22" stroke-width="1.5" fill="#f0ddd0"/>
+          <path d="M-20 4 C-20 -14 -8 -24 0 -26 C8 -24 20 -14 20 4" fill="#2a1808" stroke="#2a1808" stroke-width="0.9"/>
+          <path d="M-20 4 C-24 16 -24 38 -22 60 C-20 82 -20 110 -22 132" stroke-width="8" stroke="#2a1808" fill="none"/>
+          <path d="M-18 6 C-22 20 -22 42 -20 64" stroke-width="5" stroke="#1a0e00" fill="none" opacity="0.5"/>
+          <rect x="-6" y="20" width="12" height="12" rx="4" fill="#f0ddd0" stroke-width="0.8"/>
+          <path d="M-14 32 C-16 46 -16 68 -14 86 L14 86 C16 68 16 46 14 32 Q6 28 0 28 Q-6 28 -14 32Z" fill="#3a6830" stroke="#2a5020" stroke-width="1.3"/>
+          <path d="M-14 78 L-18 122 M14 78 L18 122" stroke-width="2" stroke="#3a6830"/>
+          <path d="M-18 122 Q0 128 18 122" stroke-width="1.4" stroke="#3a6830"/>
+          <path d="M-14 40 C-4 32 8 28 22 26 C36 24 54 24 68 30 C80 35 88 44 90 54" stroke-width="11" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M-14 38 C-4 30 8 26 22 24 C36 22 54 22 68 28 C80 33 88 42 90 52" stroke-width="7" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
+          <path d="M14 40 C24 33 38 29 54 31 C70 33 84 42 90 54" stroke-width="10" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M14 38 C24 31 38 27 54 29 C70 31 84 40 90 52" stroke-width="6" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
+          <line x1="-6" y1="86" x2="-8" y2="122" stroke-width="1.8"/>
+          <line x1="6"  y1="86" x2="4"  y2="122" stroke-width="1.8"/>
+          <path d="M-10 120 Q-2 127 6 125" stroke-width="1.3" fill="none"/>
+          <path d="M2 120 Q10 127 18 125"  stroke-width="1.3" fill="none"/>
+        </g>
+        <g transform="translate(278,84)" stroke="#8a5030" fill="none" stroke-linecap="round">
+          <ellipse cx="0" cy="0" rx="22" ry="25" stroke-width="1.5" fill="#f0ddd0"/>
+          <path d="M-22 5 C-22 -16 -8 -27 0 -29 C8 -27 22 -16 22 5" fill="#2a1808" stroke="#2a1808" stroke-width="0.9"/>
+          <rect x="-7" y="23" width="14" height="14" rx="4" fill="#f0ddd0" stroke-width="0.8"/>
+          <path d="M-16 37 C-18 52 -18 74 -16 92 L16 92 C18 74 18 52 16 37 Q8 32 0 32 Q-8 32 -16 37Z" fill="#1c1818" stroke="#2a2020" stroke-width="1.4"/>
+          <path d="M-16 46 C-30 37 -54 30 -76 26 C-94 22 -112 22 -124 30" stroke-width="15" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M-16 44 C-30 35 -54 28 -76 24 C-94 20 -112 20 -124 28" stroke-width="9" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
+          <path d="M-126 28 C-135 22 -142 23 -143 30 C-144 37 -138 44 -131 43 C-124 42 -119 37 -120 30 C-121 25 -124 23 -126 28Z" fill="#e8c8b0" stroke="#c0a080" stroke-width="1"/>
+          <line x1="-140" y1="24" x2="-148" y2="14" stroke-width="1.2" stroke="#c0a080"/>
+          <line x1="-136" y1="22" x2="-142" y2="11" stroke-width="1.2" stroke="#c0a080"/>
+          <line x1="-130" y1="21" x2="-134" y2="10" stroke-width="1.2" stroke="#c0a080"/>
+          <path d="M16 46 C30 37 52 30 72 28 C90 26 108 28 118 38" stroke-width="14" stroke="#f0ddd0" stroke-linecap="round"/>
+          <path d="M16 44 C30 35 52 28 72 26 C90 24 108 26 118 36" stroke-width="8" stroke="#e8d0c0" stroke-linecap="round" opacity="0.6"/>
+          <path d="M120 36 C128 30 135 31 136 38 C137 45 131 52 124 51 C117 50 112 45 114 38 C115 33 118 31 120 36Z" fill="#e8c8b0" stroke="#c0a080" stroke-width="1"/>
+          <line x1="-6" y1="92" x2="-4" y2="130" stroke-width="2"/>
+          <line x1="6"  y1="92" x2="10" y2="130" stroke-width="2"/>
+          <path d="M-6 128 Q2 136 10 133"   stroke-width="1.4" fill="none"/>
+          <path d="M8 128  Q18 136 26 133"  stroke-width="1.4" fill="none"/>
+        </g>
+        <ellipse cx="216" cy="162" rx="32" ry="22" fill="#f5c870" opacity="0.22"/>
+        <g fill="#d4a090" opacity="0.2">
+          <circle cx="200" cy="128" r="3.5"/><circle cx="222" cy="116" r="2.5"/><circle cx="240" cy="126" r="3"/>
+        </g>
+        <text x="210" y="318" text-anchor="middle"
+              font-family="Playfair Display, serif" font-style="italic"
+              font-size="13.5" fill="#8a5030" opacity="0.42" letter-spacing="1">
+          my arms will always be in reach.
+        </text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="screen" id="endScreen">
+    <div style="text-align:center;padding:40px;opacity:0;transform:translateY(20px);transition:opacity 1s ease,transform 1s ease;" id="endInner">
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(13px,3.5vw,15px);color:var(--amber);opacity:0.6;letter-spacing:2px;margin-bottom:32px;">✦ &nbsp; ch. 02 &nbsp; ✦</div>
+      <a href="index.html" style="font-family:'Caveat',cursive;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);background:none;border:1px solid rgba(200,120,58,0.25);border-radius:40px;padding:11px 28px;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.3s;">← back to chapters</a>
+    </div>
   </div>
 
 </div>
 
 <script>
+const root = document.getElementById('scrollRoot');
+
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if(e.isIntersecting){
-      e.target.classList.add('in');
+    if(e.isIntersecting) {
+      // stanza wraps
+      const sw = e.target.querySelector('.stanza-wrap');
+      if(sw) sw.classList.add('in');
+      // illus blocks
+      const ib = e.target.querySelector('.illus-block');
+      if(ib) { ib.style.opacity='1'; ib.style.transform='translateY(0)'; }
+      // end inner
+      const ei = e.target.querySelector('#endInner');
+      if(ei) { ei.style.opacity='1'; ei.style.transform='translateY(0)'; }
       observer.unobserve(e.target);
     }
   });
-}, {threshold:0.12});
+}, {root: root, threshold: 0.4});
 
-document.querySelectorAll('.poem-line').forEach(el => observer.observe(el));
-['divider','illus1','illus2','illus3','illus4','endBlock'].forEach(id => {
-  const el = document.getElementById(id);
-  if(el) observer.observe(el);
-});
+document.querySelectorAll('.screen').forEach(s => observer.observe(s));
 </script>
 </body>
-</html>
